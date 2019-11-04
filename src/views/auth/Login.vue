@@ -71,7 +71,8 @@
                     axios
                         .post('http://localhost:8000/api/login', this.user)
                         .then((response) => {
-                            console.log(response.data);
+                            localStorage.setItem('token', response.data);
+                            this.$router.push({name: 'dashboard'});
                         })
                 }
             }
