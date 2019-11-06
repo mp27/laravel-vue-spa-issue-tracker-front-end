@@ -6,7 +6,7 @@
                 <span class="font-weight-light">Tracker</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn small @click="logout" v-if="loggedIn">
+            <v-btn @click="logout" small v-if="loggedIn">
                 Logout
             </v-btn>
         </v-app-bar>
@@ -18,20 +18,29 @@
 </template>
 
 <script>
+    import {mapGetters, mapActions} from 'vuex';
+
     export default {
         name: 'App',
-        data: () => ({
-            loggedIn: false
-        }),
+        data: () => ({}),
         created() {
-            if (localStorage.getItem('token')) {
-                this.loggedIn = true
-            }
+           this.checkUserState();
+        },
+        computed: {
+            ...mapGetters({
+                loggedIn: 'user/loggedIn'
+            })
         },
         methods: {
+            ...mapActions({
+                logoutUser: 'user/logoutUser',
+                checkUserState: 'user/setLoggedInState'
+            }),
             logout() {
-                localStorage.removeItem('token');
-                this.$router.push({name: 'login'});
+                this.logoutUser()
+                    .then(() => {
+                        this.$router.push({name: 'login'});
+                    })
             }
         }
     };
