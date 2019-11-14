@@ -23,9 +23,13 @@ const actions = {
             axios
                 .post('http://localhost:8000/api/login', payload)
                 .then((response) => {
-                    localStorage.setItem('token', response.data);
-                    ctx.commit('setLoggedIn', true);
-                    resolve(response);
+                    if (response.data.access_token) {
+                        localStorage.setItem('token', response.data);
+                        ctx.commit('setLoggedIn', true);
+                        resolve(response);
+                    } else {
+                        reject(response);
+                    }
                 })
                 .catch((error) => {
                     reject(error);
