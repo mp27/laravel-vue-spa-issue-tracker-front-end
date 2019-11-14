@@ -53,6 +53,30 @@ const actions = {
                 resolve(false)
             }
         });
+    },
+    forgotPassword(ctx, payload) {
+        return new Promise((resolve, reject) => {
+            axios
+                .post('http://localhost:8000/api/forgot-password', payload)
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
+    },
+    resetPassword(ctx, payload) {
+        return new Promise((resolve, reject) => {
+            axios
+                .post('http://localhost:8000/api/reset-password', payload)
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
     }
 };
 
