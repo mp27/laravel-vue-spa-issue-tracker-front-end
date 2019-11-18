@@ -55,24 +55,14 @@
                 </v-col>
             </v-row>
         </v-container>
-        <v-snackbar
-                v-model="snackbar.show"
-        >
-            {{ snackbar.text }}
-            <v-btn
-                    @click="snackbar.show = false"
-                    color="pink"
-                    text
-            >
-                Close
-            </v-btn>
-        </v-snackbar>
+
         <router-link :to="{name: 'login'}">Login</router-link>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import {mapActions} from 'vuex';
 
     export default {
         name: "Register",
@@ -83,36 +73,35 @@
                     email: '',
                     name: '',
                     password: ''
-                },
-                snackbar: {
-                    show: false,
-                    text: 'Success'
                 }
             }
         },
         methods: {
+            ...mapActions({
+                addNotification: 'application/addNotification'
+            }),
             registerUser() {
                 if (this.$refs.registerForm.validate()) {
                     axios
                         .post('http://localhost:8000/api/register', this.newUser)
                         .then((response) => {
                             if (response.data && response.data.success) {
-                                this.snackbar = {
+                                this.addNotification({
                                     show: true,
                                     text: 'Success!'
-                                };
-
-                                this.$router.push({
-                                    name: 'login'
+                                }).then(() => {
+                                    this.$router.push({
+                                        name: 'login'
+                                    });
                                 })
                             }
 
                         })
                         .catch(() => {
-                            this.snackbar = {
+                            this.addNotification({
                                 show: true,
-                                text: 'Failed!!!'
-                            }
+                                text: 'Failed!'
+                            });
                         });
                 }
             }

@@ -14,6 +14,21 @@
         <v-content>
             <router-view></router-view>
         </v-content>
+        <v-snackbar
+                :key="index"
+                @input="updateNotification($event, index)"
+                v-for="(snackbar, index) in allNotifications"
+                v-model="snackbar.show"
+        >
+            {{ snackbar.text }}
+            <v-btn
+                    @click="removeNotification(index)"
+                    color="pink"
+                    text
+            >
+                Close
+            </v-btn>
+        </v-snackbar>
     </v-app>
 </template>
 
@@ -24,23 +39,37 @@
         name: 'App',
         data: () => ({}),
         created() {
-           this.checkUserState();
+            this.checkUserState();
         },
         computed: {
             ...mapGetters({
-                loggedIn: 'user/loggedIn'
+                loggedIn: 'user/loggedIn',
+                allNotifications: 'application/notifications'
             })
         },
         methods: {
             ...mapActions({
                 logoutUser: 'user/logoutUser',
-                checkUserState: 'user/setLoggedInState'
+                checkUserState: 'user/setLoggedInState',
+                removeNotification: 'application/removeNotification',
+                addNotification: 'application/addNotification'
             }),
             logout() {
                 this.logoutUser()
                     .then(() => {
+                        return this.addNotification({
+                            show: true,
+                            text: 'Logged out!'
+                        })
+                    })
+                    .then(() => {
                         this.$router.push({name: 'login'});
                     })
+            },
+            updateNotification(show, index) {
+                if (!show) {
+                    this.removeNotification(index)
+                }
             }
         }
     };

@@ -55,18 +55,7 @@
                 </v-col>
             </v-row>
         </v-container>
-        <v-snackbar
-                v-model="snackbar.show"
-        >
-            {{ snackbar.text }}
-            <v-btn
-                    @click="snackbar.show = false"
-                    color="pink"
-                    text
-            >
-                Close
-            </v-btn>
-        </v-snackbar>
+
         <router-link :to="{name: 'login'}">Login</router-link>
     </div>
 </template>
@@ -82,32 +71,31 @@
                     email: '',
                     password: '',
                     password_confirmation: ''
-                },
-                snackbar: {
-                    show: false,
-                    text: ''
                 }
             }
         },
         methods: {
             ...mapActions({
-                resetPassword: 'user/resetPassword'
+                resetPassword: 'user/resetPassword',
+                addNotification: 'application/addNotification'
             }),
             sendResetPassword() {
                 if (this.$refs.resetPasswordForm.validate()) {
                     const token = this.$route.query.token;
                     this.resetPassword({...this.user, token})
                         .then(() => {
-                            this.snackbar = {
+                            this.addNotification({
                                 text: 'Password changed!',
                                 show: true
-                            };
-                            this.$router.push({name: 'login'});
+                            }).then(() => {
+                                this.$router.push({name: 'login'});
+                            });
+
                         }).catch(() => {
-                        this.snackbar = {
+                        this.addNotification({
                             text: 'Failed to change password!',
                             show: true
-                        };
+                        });
                     });
 
                 }

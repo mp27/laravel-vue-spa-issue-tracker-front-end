@@ -40,18 +40,6 @@
                 </v-col>
             </v-row>
         </v-container>
-        <v-snackbar
-                v-model="snackbar.show"
-        >
-            {{ snackbar.text }}
-            <v-btn
-                    @click="snackbar.show = false"
-                    color="pink"
-                    text
-            >
-                Close
-            </v-btn>
-        </v-snackbar>
         <router-link :to="{name: 'login'}">Login</router-link>
     </div>
 </template>
@@ -63,29 +51,26 @@
         name: "ForgotPassword",
         data() {
             return {
-                email: '',
-                snackbar: {
-                    text: '',
-                    show: false
-                }
+                email: ''
             }
         },
         methods: {
             ...mapActions({
-                forgotPassword: 'user/forgotPassword'
+                forgotPassword: 'user/forgotPassword',
+                addNotification: 'application/addNotification'
             }),
             sendForgotPassword() {
                 if (this.$refs.forgotPasswordForm.validate()) {
                     this.forgotPassword({email: this.email}).then(() => {
-                        this.snackbar = {
+                        this.addNotification({
                             text: 'Email sent!',
                             show: true
-                        };
+                        });
                     }).catch(() => {
-                        this.snackbar = {
+                        this.addNotification({
                             text: 'Failed to send email!',
                             show: true
-                        };
+                        });
                     });
                 }
             }
