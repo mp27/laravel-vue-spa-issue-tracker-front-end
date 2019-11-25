@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/pages/Home.vue'
 import Middlewares from "../middlewares/";
 
 Vue.use(VueRouter);

@@ -1,27 +1,26 @@
-import axios from 'axios';
+import axios from "../../axios";
 
-const state = {
-  isLoggedIn: false,
-  userDetails: {}
-};
-
-const getters = {
-    loggedIn(state) {
-        return state.isLoggedIn;
-    }
-};
-
-const mutations = {
-    setLoggedIn(state, payload) {
-        state.isLoggedIn = payload;
-    }
-};
-
-const actions = {
+export default {
+    registerUser(ctx, payload) {
+        return new Promise((resolve, reject) => {
+            axios
+                .post('register', payload)
+                .then((response) => {
+                    if (response.data) {
+                        resolve(response);
+                    } else {
+                        reject(response);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
+    },
     loginUser(ctx, payload) {
         return new Promise((resolve, reject) => {
             axios
-                .post('http://localhost:8000/api/login', payload)
+                .post('login', payload)
                 .then((response) => {
                     if (response.data.access_token) {
                         localStorage.setItem('token', response.data);
@@ -57,7 +56,7 @@ const actions = {
     forgotPassword(ctx, payload) {
         return new Promise((resolve, reject) => {
             axios
-                .post('http://localhost:8000/api/forgot-password', payload)
+                .post('forgot-password', payload)
                 .then((response) => {
                     resolve(response);
                 })
@@ -69,7 +68,7 @@ const actions = {
     resetPassword(ctx, payload) {
         return new Promise((resolve, reject) => {
             axios
-                .post('http://localhost:8000/api/reset-password', payload)
+                .post('reset-password', payload)
                 .then((response) => {
                     resolve(response);
                 })
@@ -79,11 +78,3 @@ const actions = {
         })
     }
 };
-
-export default {
-    namespaced: true,
-    state,
-    getters,
-    mutations,
-    actions
-}
