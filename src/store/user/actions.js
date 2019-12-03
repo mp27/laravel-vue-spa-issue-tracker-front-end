@@ -22,8 +22,9 @@ export default {
             axios
                 .post('login', payload)
                 .then((response) => {
+                    console.log(response);
                     if (response.data.access_token) {
-                        localStorage.setItem('token', response.data);
+                        localStorage.setItem('token', response.data.access_token);
                         ctx.commit('setLoggedIn', true);
                         resolve(response);
                     } else {
@@ -70,6 +71,20 @@ export default {
             axios
                 .post('reset-password', payload)
                 .then((response) => {
+                    resolve(response);
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
+    },
+    me(ctx) {
+        return new Promise((resolve, reject) => {
+            axios
+                .get('me')
+                .then((response) => {
+                    ctx.commit('setUserDetails', response.data);
+                    console.log(response.data);
                     resolve(response);
                 })
                 .catch((error) => {
