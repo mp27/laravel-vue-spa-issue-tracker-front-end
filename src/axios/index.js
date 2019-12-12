@@ -14,7 +14,7 @@ ax.interceptors.request.use(function (config) {
 
     return config;
 }, function (error) {
-    // Do something with request error
+    // Do something with request eror
     return Promise.reject(error);
 });
 

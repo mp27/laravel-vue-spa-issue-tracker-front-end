@@ -83,8 +83,7 @@ export default {
             axios
                 .get('me')
                 .then((response) => {
-                    ctx.commit('setUserDetails', response.data);
-                    console.log(response.data);
+                    ctx.commit('setUserDetails', response.data.data);
                     resolve(response);
                 })
                 .catch((error) => {
