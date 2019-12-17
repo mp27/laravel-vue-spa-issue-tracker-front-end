@@ -29,17 +29,156 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-row
+                align="center"
+                justify="center"
+        >
+            <v-col
+                    cols="12"
+                    md="4"
+                    sm="8"
+            >
+                <v-card class="elevation-12">
+                    <v-toolbar
+                            color="primary"
+                            dark
+                            flat
+                    >
+                        <v-toolbar-title>Change details</v-toolbar-title>
+                        <v-spacer/>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form ref="changeDetailsForm">
+                            <v-text-field
+                                    label="Name"
+                                    name="name"
+                                    type="text"
+                                    v-model="userDetails.name"
+                            />
+
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer/>
+                        <v-btn @click="changeDetails" color="primary">Save</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row
+                align="center"
+                justify="center"
+        >
+            <v-col
+                    cols="12"
+                    md="4"
+                    sm="8"
+            >
+                <v-card class="elevation-12">
+                    <v-toolbar
+                            color="primary"
+                            dark
+                            flat
+                    >
+                        <v-toolbar-title>Change password</v-toolbar-title>
+                        <v-spacer/>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form ref="changePasswordForm">
+                            <v-text-field
+                                    label="Old Password"
+                                    name="oldPassword"
+                                    type="password"
+                                    v-model="user.oldPassword"
+                            />
+                            <v-text-field
+                                    label="New Password"
+                                    name="newPassword"
+                                    type="password"
+                                    v-model="user.newPassword"
+                            />
+                            <v-text-field
+                                    label="New Password Confirmation"
+                                    name="newPasswordConfirmation"
+                                    type="password"
+                                    v-model="user.newPasswordConfirmation"
+                            />
+
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer/>
+                        <v-btn @click="changePassword" color="primary">Change password</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapActions, mapGetters} from "vuex";
 
     export default {
+        data() {
+            return {
+                user: {
+                    oldPassword: '',
+                    newPassword: '',
+                    newPasswordConfirmation: ''
+                }
+            }
+        },
         computed: {
             ...mapGetters({
-                userDetails: "user/userDetails"
+                userDetails: "user/userDetails",
+
             })
+        },
+        methods: {
+            ...mapActions({
+                updateDetails: "user/updateDetails",
+                changeUserPassword: "user/changePassword",
+                addNotification: "application/addNotification"
+            }),
+            changeDetails() {
+                if (!this.$refs.changeDetailsForm.validate()) {
+                    return false;
+                }
+
+                this.updateDetails(this.userDetails)
+                    .then(() => {
+                        this.addNotification({
+                            show: true,
+                            text: 'Details changed'
+                        })
+                    })
+                    .catch(() => {
+                        this.addNotification({
+                            show: true,
+                            text: 'Failed to change details!!!'
+                        })
+                    })
+            },
+            changePassword() {
+                if (!this.$refs.changePasswordForm.validate()) {
+                    return false;
+                }
+
+                this.changeUserPassword(this.user)
+                    .then(() => {
+                        this.addNotification({
+                            show: true,
+                            text: 'Password changed'
+                        })
+                    })
+                    .catch(() => {
+                        this.addNotification({
+                            show: true,
+                            text: 'Failed to change password!!!'
+                        })
+                    })
+            }
         }
     }
 </script>

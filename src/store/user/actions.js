@@ -90,5 +90,37 @@ export default {
                     reject(error);
                 })
         })
-    }
+    },
+    changePassword(ctx, payload) {
+        return new Promise((resolve, reject) => {
+            axios
+                .post('change-password', payload)
+                .then((response) => {
+                    if (response.data.success) {
+                        resolve(response);
+                    } else {
+                        reject(response);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
+    },
+    updateDetails(ctx, payload) {
+        return new Promise((resolve, reject) => {
+            axios
+                .post('change-details', payload)
+                .then((response) => {
+                    if (response.data.success) {
+                        resolve(response);
+                    } else {
+                        reject(response);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
+    },
 };
