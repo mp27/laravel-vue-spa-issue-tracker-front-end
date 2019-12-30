@@ -25,6 +25,7 @@
                         <v-card-text>
                             <v-form ref="resetPasswordForm">
                                 <v-text-field
+                                        :rules="[...requiredRules, ...emailRules]"
                                         label="Email"
                                         name="email"
                                         type="email"
@@ -35,12 +36,14 @@
                                         id="password"
                                         label="Password"
                                         name="password"
+                                        :rules="[...requiredRules, ...passwordRules, passwordValidator]"
                                         type="password"
                                         v-model="user.password"
                                 />
                                 <v-text-field
                                         id="password_confirmation"
                                         label="Password Confirmation"
+                                        :rules="[...requiredRules, ...passwordRules, passwordValidator]"
                                         name="password_confirmation"
                                         type="password"
                                         v-model="user.password_confirmation"
@@ -71,7 +74,16 @@
                     email: '',
                     password: '',
                     password_confirmation: ''
-                }
+                },
+                requiredRules: [
+                    v => !!v || 'This field is required'
+                ],
+                passwordRules: [
+                    v => (!!v && v.length > 6) || 'Password is too short!'
+                ],
+                emailRules: [
+                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                ]
             }
         },
         methods: {
@@ -99,6 +111,9 @@
                     });
 
                 }
+            },
+            passwordValidator() {
+                return (this.user.password_confirmation === this.user.password) || 'Password is not confirmed';
             }
         }
     }

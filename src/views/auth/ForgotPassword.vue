@@ -25,6 +25,7 @@
                         <v-card-text>
                             <v-form ref="forgotPasswordForm">
                                 <v-text-field
+                                        :rules="emailRules"
                                         label="Email"
                                         name="email"
                                         type="email"
@@ -51,7 +52,11 @@
         name: "ForgotPassword",
         data() {
             return {
-                email: ''
+                email: '',
+                emailRules: [
+                    v => !!v || 'The Email is required',
+                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                ]
             }
         },
         methods: {

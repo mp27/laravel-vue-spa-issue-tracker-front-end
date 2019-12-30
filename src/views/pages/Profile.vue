@@ -50,6 +50,7 @@
                     <v-card-text>
                         <v-form ref="changeDetailsForm">
                             <v-text-field
+                                    :rules="requiredRules"
                                     label="Name"
                                     name="name"
                                     type="text"
@@ -86,20 +87,25 @@
                     <v-card-text>
                         <v-form ref="changePasswordForm">
                             <v-text-field
+                                    :rules="[...requiredRules, ...passwordRules]"
                                     label="Old Password"
                                     name="oldPassword"
                                     type="password"
                                     v-model="user.oldPassword"
                             />
                             <v-text-field
+                                    :rules="[...requiredRules, ...passwordRules, newPasswordValidator]"
                                     label="New Password"
                                     name="newPassword"
+                                    ref="newPasswordInput"
                                     type="password"
                                     v-model="user.newPassword"
                             />
                             <v-text-field
+                                    :rules="[...requiredRules, ...passwordRules, newPasswordValidator]"
                                     label="New Password Confirmation"
                                     name="newPasswordConfirmation"
+                                    ref="newPasswordConfirmationInput"
                                     type="password"
                                     v-model="user.newPasswordConfirmation"
                             />
@@ -125,14 +131,19 @@
                 user: {
                     oldPassword: '',
                     newPassword: '',
-                    newPasswordConfirmation: ''
-                }
+                    newPasswordConfirmation: '',
+                },
+                requiredRules: [
+                    v => !!v || 'This field is required'
+                ],
+                passwordRules: [
+                    v => (!!v && v.length > 6) || 'Password is too short!'
+                ]
             }
         },
         computed: {
             ...mapGetters({
-                userDetails: "user/userDetails",
-
+                userDetails: "user/userDetails"
             })
         },
         methods: {
@@ -178,6 +189,9 @@
                             text: 'Failed to change password!!!'
                         })
                     })
+            },
+            newPasswordValidator() {
+                return (this.user.newPasswordConfirmation === this.user.newPassword) || 'New password is not confirmed';
             }
         }
     }

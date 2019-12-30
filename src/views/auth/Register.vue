@@ -25,6 +25,7 @@
                         <v-card-text>
                             <v-form :value="formValid" ref="registerForm">
                                 <v-text-field
+                                        :rules="emailRules"
                                         label="Email"
                                         name="email"
                                         type="email"
@@ -32,6 +33,7 @@
                                 />
 
                                 <v-text-field
+                                        :rules="nameRules"
                                         label="Name"
                                         name="name"
                                         type="text"
@@ -39,6 +41,7 @@
                                 />
 
                                 <v-text-field
+                                        :rules="passwordRules"
                                         id="password"
                                         label="Password"
                                         name="password"
@@ -72,7 +75,18 @@
                     email: '',
                     name: '',
                     password: ''
-                }
+                },
+                emailRules: [
+                    v => !!v || 'The Email is required',
+                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                ],
+                passwordRules: [
+                    v => !!v || 'The Password is required',
+                    v => v.length > 6 || 'The Password is too short'
+                ],
+                nameRules: [
+                    v => !!v || 'The Name is required'
+                ]
             }
         },
         methods: {
