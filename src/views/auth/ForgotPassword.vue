@@ -47,16 +47,14 @@
 
 <script>
     import {mapActions} from 'vuex';
+    import PasswordValidationMixin from '../../mixins/passwordValidationMixin';
 
     export default {
         name: "ForgotPassword",
+        mixins: [PasswordValidationMixin],
         data() {
             return {
-                email: '',
-                emailRules: [
-                    v => !!v || 'The Email is required',
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-                ]
+                email: ''
             }
         },
         methods: {

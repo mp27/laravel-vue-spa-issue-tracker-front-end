@@ -65,25 +65,18 @@
 
 <script>
     import {mapActions} from 'vuex';
+    import PasswordValidationMixin from '../../mixins/passwordValidationMixin';
 
     export default {
         name: "ResetPassword",
+        mixins: [PasswordValidationMixin],
         data() {
             return {
                 user: {
                     email: '',
                     password: '',
                     password_confirmation: ''
-                },
-                requiredRules: [
-                    v => !!v || 'This field is required'
-                ],
-                passwordRules: [
-                    v => (!!v && v.length > 6) || 'Password is too short!'
-                ],
-                emailRules: [
-                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-                ]
+                }
             }
         },
         methods: {
