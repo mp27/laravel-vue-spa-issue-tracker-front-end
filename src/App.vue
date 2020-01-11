@@ -27,7 +27,9 @@
         created() {
             this.checkUserState().then(() => {
                 if (this.isLoggedIn) {
-                    this.me();
+                    this.me().then(() => {
+                        console.log(this.$can('view-developer-dashboard'))
+                    });
                 }
             });
         },

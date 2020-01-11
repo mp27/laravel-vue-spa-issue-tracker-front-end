@@ -60,7 +60,8 @@ const routes = [
                 name: 'dashboard',
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/pages/Dashboard.vue'),
                 meta: {
-                    middleware: [Middlewares.auth]
+                    middleware: [Middlewares.auth, Middlewares.checkPermissions],
+                    permissions: ['view-developer-dashboard']
                 }
             },
             {

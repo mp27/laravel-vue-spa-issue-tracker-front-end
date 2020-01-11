@@ -2,6 +2,7 @@
   <div class="home">
     <img alt="Vue logo" src="../../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-link :to="{name: 'dashboard'}">Dashboard</router-link>
   </div>
 </template>
 
