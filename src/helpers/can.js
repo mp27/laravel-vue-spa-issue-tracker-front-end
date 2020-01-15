@@ -12,7 +12,9 @@ export default (permissions) => {
         canEnter = userPermissions.includes(permissions)
     } else {
         permissions.forEach((permission) => {
-            canEnter = userPermissions.includes(permission)
+            if (userPermissions.includes(permission)) {
+                canEnter = true;
+            }
         });
     }
 

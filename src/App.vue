@@ -25,6 +25,7 @@
     export default {
         name: 'App',
         created() {
+            console.log(this.$constants, "TEST");
             this.checkUserState().then(() => {
                 if (this.isLoggedIn) {
                     this.me().then(() => {
