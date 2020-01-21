@@ -172,7 +172,9 @@
                     return false;
                 }
 
-                this.changeUserPassword(this.user)
+                this.changeUserPassword(Object.assign({}, this.user, {
+                    newPassword_confirmation: this.user.newPasswordConfirmation
+                }))
                     .then(() => {
                         this.addNotification({
                             show: true,

@@ -48,6 +48,14 @@
                                         type="password"
                                         v-model="newUser.password"
                                 />
+                                <v-text-field
+                                        :rules="passwordRules"
+                                        id="password_confirmation"
+                                        label="Password Confirmation"
+                                        name="password_confirmation"
+                                        type="password"
+                                        v-model="newUser.password_confirmation"
+                                />
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -76,7 +84,8 @@
                 newUser: {
                     email: '',
                     name: '',
-                    password: ''
+                    password: '',
+                    password_confirmation: ''
                 },
                 nameRules: [
                     v => !!v || 'The Name is required'
