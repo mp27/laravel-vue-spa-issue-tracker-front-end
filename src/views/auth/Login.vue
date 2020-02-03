@@ -41,6 +41,7 @@
                                         v-model="user.password"
                                 />
                             </v-form>
+                            <v-btn @click="loginGithub" color="info">Login with github</v-btn>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer/>
@@ -72,6 +73,7 @@
         methods: {
             ...mapActions({
                 login: 'user/loginUser',
+                loginGithubAction: 'user/loginGithub',
                 addNotification: 'application/addNotification'
             }),
             loginUser() {
@@ -93,6 +95,13 @@
                         })
 
                 }
+            },
+            loginGithub() {
+                this.loginGithubAction().then((resp) => {
+                    if (resp.data.url) {
+                        window.location.href = resp.data.url
+                    }
+                })
             }
         }
     }

@@ -36,6 +36,38 @@ export default {
                 })
         })
     },
+    loginGithub() {
+        return new Promise((resolve, reject) => {
+            axios
+                .get('authorize/github/redirect')
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
+    },
+    loginGithubCallback(ctx, payload) {
+        return new Promise((resolve, reject) => {
+            axios
+                .get('authorize/github/callback', {
+                    params: payload
+                })
+                .then((response) => {
+                    if (response.data.access_token) {
+                        localStorage.setItem('token', response.data.access_token);
+                        ctx.commit('setLoggedIn', true);
+                        resolve(response);
+                    } else {
+                        reject(response);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
+    },
     logoutUser(ctx) {
         return new Promise((resolve) => {
             localStorage.removeItem('token');
