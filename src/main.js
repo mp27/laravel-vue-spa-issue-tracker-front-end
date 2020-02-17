@@ -8,7 +8,7 @@ import can from './helpers/can';
 
 Vue.config.productionTip = false;
 Vue.prototype.$can = can;
-let instante = new Vue({
+let instance = new Vue({
     router,
     store,
     vuetify,
@@ -18,6 +18,6 @@ let instante = new Vue({
 axios.get('constants').then((response) => {
     Vue.prototype.$constants = response.data;
 
-    instante.$mount('#app');
+    instance.$mount('#app');
 });
 

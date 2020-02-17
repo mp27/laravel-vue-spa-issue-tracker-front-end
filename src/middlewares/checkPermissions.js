@@ -11,10 +11,8 @@ export default function checkPermissions({next, to, from, router}) {
                 return next();
             }
 
-            console.log(requiredPermissions, canEnter);
-
             return router.push({name: 'home'});
-        })
+        });
     } else {
         const canEnter = can(requiredPermissions);
 

@@ -12,14 +12,18 @@
         methods: {
             ...mapActions({
                 login: 'user/loginGithubCallback',
+                addNotification: 'application/addNotification'
             }),
             loginUser() {
                 this.login({
                     code: this.$route.query.code
                 }).then((resp) => {
                     if (resp.data.access_token) {
-                        this.$router.push({
-                            name: 'dashboard'
+                        this.addNotification({
+                            show: true,
+                            text: 'Welcome'
+                        }).then(() => {
+                            this.$router.push({name: 'dashboard'});
                         })
                     } else {
                         this.$router.push({

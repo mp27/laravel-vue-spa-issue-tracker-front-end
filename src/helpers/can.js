@@ -4,6 +4,8 @@ export default (permissions) => {
     const userPermissions = store.getters['user/userDetails'].permissions;
     let canEnter = false;
 
+    console.log({userPermissions});
+
     if (!userPermissions || !permissions) {
         return canEnter;
     }

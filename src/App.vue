@@ -25,14 +25,14 @@
     export default {
         name: 'App',
         created() {
-            console.log(this.$constants, "TEST");
-            this.checkUserState().then(() => {
-                if (this.isLoggedIn) {
-                    this.me().then(() => {
-                        console.log(this.$can('view-developer-dashboard'))
-                    });
-                }
-            });
+            this.checkUserState();
+            //     .then(() => {
+            //     if (this.isLoggedIn) {
+            //         this.me().then(() => {
+            //             console.log(this.$can('view-developer-dashboard'))
+            //         });
+            //     }
+            // });
         },
         computed: {
             ...mapGetters({

@@ -22,11 +22,10 @@ export default {
             axios
                 .post('login', payload)
                 .then((response) => {
-                    console.log(response);
                     if (response.data.access_token) {
                         localStorage.setItem('token', response.data.access_token);
                         ctx.commit('setLoggedIn', true);
-                        resolve(response);
+                        ctx.dispatch('me').then(() => resolve(response));
                     } else {
                         reject(response);
                     }
@@ -58,7 +57,7 @@ export default {
                     if (response.data.access_token) {
                         localStorage.setItem('token', response.data.access_token);
                         ctx.commit('setLoggedIn', true);
-                        resolve(response);
+                        ctx.dispatch('me').then(() => resolve(response));
                     } else {
                         reject(response);
                     }
