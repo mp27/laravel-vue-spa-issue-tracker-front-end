@@ -154,4 +154,18 @@ export default {
                 })
         })
     },
+    verifyEmail(ctx, payload) {
+        return new Promise((resolve, reject) => {
+            axios
+                .get('email-verification', {
+                    params: payload
+                })
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((error) => {
+                    reject(error);
+                })
+        })
+    },
 };
